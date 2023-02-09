@@ -1,0 +1,93 @@
+syntax = "proto3";
+package order;
+
+import "google/protobuf/timestamp.proto";
+
+enum OrderStatus {
+  ORDER_STATUS_UNKNOWN = 0;
+  ORDER_STATUS_PAYMENT_PENDING = 1;
+  ORDER_STATUS_PAID = 2;
+  ORDER_STATUS_CANCELED = 3;
+}
+
+enum OrderUpdateType {
+  ORDER_UPDATE_TYPE_UNKNOWN = 0;
+  ORDER_UPDATE_TYPE_CREATE = 1;
+  ORDER_UPDATE_TYPE_UPDATE = 2;
+  ORDER_UPDATE_TYPE_DELETE = 3;
+}
+
+message PurchasedProduct {
+  string product_id = 1;
+  string product_name = 2;
+  uint32 quantity = 3;
+  uint32 unit_price = 4;
+}
+
+message Order {
+  string order_id = 1;
+  string user_id = 2;
+  repeated PurchasedProduct cart = 3;
+  OrderStatus status = 4;
+  google.protobuf.Timestamp create_at = 5;
+  google.protobuf.Timestamp update_at = 6;
+  string note = 7;
+}
+
+message OrderAddRequest {
+  string user_id = 1;
+  repeated PurchasedProduct cart = 2;
+  OrderStatus status = 3;
+  google.protobuf.Timestamp create_at = 4;
+  string note = 5;
+}
+
+message OrderAddResponse {
+  string order_id = 1;
+}
+
+message OrderCancelRequest {
+  string order_id = 1;
+}
+
+message OrderCancelResponse {
+  Order order = 1;
+}
+
+message OrderModifyRequest {
+  string order_id = 1;
+  repeated PurchasedProduct cart = 2;
+  OrderStatus status = 3;
+  google.protobuf.Timestamp update_at = 4;
+  string note = 5;
+}
+
+message OrderModifyResponse {
+  Order order = 1;
+}
+
+// if field is empty, then query all
+message OrderQueryRequest {
+  optional string order_id = 1;
+  optional string user_id = 2;
+  // is status is unknown, then query all
+  optional OrderStatus status = 3;
+  optional google.protobuf.Timestamp create_at = 4;
+  optional google.protobuf.Timestamp update_at = 5;
+}
+
+message OrderListenRequest {}
+
+message OrderListenResponse {
+  OrderUpdateType op = 1;
+  Order order = 2;
+}
+
+service OrderService {
+  rpc orderAdd(OrderAddRequest) returns (OrderAddResponse);
+  rpc orderCancel(OrderCancelRequest) returns (OrderCancelResponse);
+  rpc orderModify(OrderModifyRequest) returns (OrderModifyResponse);
+  rpc orderList(OrderQueryRequest) returns (stream Order);
+  // another system could monitor newly added/confirmed/cancelled orders
+  rpc listen(OrderListenRequest) returns (stream Order);
+}
