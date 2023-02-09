@@ -11,6 +11,7 @@ Cargo.lock
 
 .DS_Store
 .idea
+.vscode
 
 # Added by cargo
 
