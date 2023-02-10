@@ -7,6 +7,7 @@ pub struct PurchasedProduct {
     pub product_name: ::prost::alloc::string::String,
     #[prost(uint32, tag = "3")]
     pub quantity: u32,
+    /// price * 100
     #[prost(uint32, tag = "4")]
     pub unit_price: u32,
 }
@@ -21,11 +22,13 @@ pub struct Order {
     pub cart: ::prost::alloc::vec::Vec<PurchasedProduct>,
     #[prost(enumeration = "OrderStatus", tag = "4")]
     pub status: i32,
-    #[prost(message, optional, tag = "5")]
-    pub create_at: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(string, tag = "5")]
+    pub address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "6")]
+    pub create_at: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(message, optional, tag = "7")]
     pub update_at: ::core::option::Option<::prost_types::Timestamp>,
-    #[prost(string, tag = "7")]
+    #[prost(string, tag = "8")]
     pub note: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -69,9 +72,11 @@ pub struct OrderModifyRequest {
     pub cart: ::prost::alloc::vec::Vec<PurchasedProduct>,
     #[prost(enumeration = "OrderStatus", tag = "3")]
     pub status: i32,
-    #[prost(message, optional, tag = "4")]
+    #[prost(string, tag = "4")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "5")]
     pub update_at: ::core::option::Option<::prost_types::Timestamp>,
-    #[prost(string, tag = "5")]
+    #[prost(string, tag = "6")]
     pub note: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -111,7 +116,7 @@ pub struct OrderListenResponse {
 #[repr(i32)]
 pub enum OrderStatus {
     Unknown = 0,
-    PaymentPending = 1,
+    Pending = 1,
     Paid = 2,
     Canceled = 3,
 }
@@ -123,7 +128,7 @@ impl OrderStatus {
     pub fn as_str_name(&self) -> &'static str {
         match self {
             OrderStatus::Unknown => "ORDER_STATUS_UNKNOWN",
-            OrderStatus::PaymentPending => "ORDER_STATUS_PAYMENT_PENDING",
+            OrderStatus::Pending => "ORDER_STATUS_PENDING",
             OrderStatus::Paid => "ORDER_STATUS_PAID",
             OrderStatus::Canceled => "ORDER_STATUS_CANCELED",
         }
@@ -132,7 +137,7 @@ impl OrderStatus {
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
             "ORDER_STATUS_UNKNOWN" => Some(Self::Unknown),
-            "ORDER_STATUS_PAYMENT_PENDING" => Some(Self::PaymentPending),
+            "ORDER_STATUS_PENDING" => Some(Self::Pending),
             "ORDER_STATUS_PAID" => Some(Self::Paid),
             "ORDER_STATUS_CANCELED" => Some(Self::Canceled),
             _ => None,

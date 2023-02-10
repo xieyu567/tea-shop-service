@@ -4,6 +4,7 @@ members = [
     "abi",
     "order",
     "authority",
+    "product",
 ]
 
 [workspace.dependencies]
@@ -13,3 +14,4 @@ prost-types = "0.11.6"
 anyhow = "1.0.69"
 tracing = "0.1.37"
 tokio = { version = "1.25.0", features = ["full"] }
+sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }

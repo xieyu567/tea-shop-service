@@ -1,0 +1,2 @@
+CREATE SCHEMA "order";
+CREATE SCHEMA product;
