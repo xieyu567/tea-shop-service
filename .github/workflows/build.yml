@@ -12,12 +12,14 @@ jobs:
   build-rust:
     strategy:
       matrix:
-        platform: [ubuntu-latest]
+        platform: [ ubuntu-latest ]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
       - name: Install Rust
         run: rustup toolchain install stable --component llvm-tools-preview
       - name: Install cargo-llvm-cov

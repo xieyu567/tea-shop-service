@@ -8,3 +8,13 @@ CREATE TABLE product.products
 
     CONSTRAINT products_pkey PRIMARY KEY (product_id)
 );
+
+CREATE TABLE product.inventory
+(
+    product_id uuid      NOT NULL,
+    quantity   int       NOT NULL,
+    create_at  timestamp NOT NULL,
+    update_at  timestamp NOT NULL,
+
+    CONSTRAINT inventory_pkey PRIMARY KEY (product_id)
+);
