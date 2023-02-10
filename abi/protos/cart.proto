@@ -1,0 +1,48 @@
+syntax = "proto3";
+package cart;
+
+import "google/protobuf/empty.proto";
+
+message CartItem {
+  string product_id = 1;
+  string product_name = 2;
+  uint32 quantity = 3;
+  uint32 unit_price = 4; // price * 100
+  bool is_flag = 5;
+}
+
+message Cart {
+  string user_id = 1;
+  repeated CartItem cart = 2;
+}
+
+message CartAddRequest {
+  Cart cart = 1;
+}
+
+message CartUpdateRequest {
+  Cart cart = 1;
+}
+
+message CartUpdateResponse {
+  Cart cart = 1;
+}
+
+message CartDeleteRequest {
+  string user_id = 1;
+}
+
+message CartListRequest {
+  string user_id = 1;
+}
+
+message CartListResponse {
+  Cart cart = 1;
+}
+
+service CartService {
+  rpc cartAdd(CartAddRequest) returns (google.protobuf.Empty);
+  rpc cartUpdate(CartUpdateRequest) returns (CartUpdateResponse);
+  rpc cartDelete(CartDeleteRequest) returns (google.protobuf.Empty);
+  rpc cartList(CartListRequest) returns (CartListResponse);
+}

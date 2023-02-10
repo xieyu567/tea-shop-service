@@ -20,10 +20,12 @@ CREATE INDEX orders_user_id_idx ON "order".orders (user_id);
 CREATE TABLE "order".carts
 (
     id               uuid  NOT NULL DEFAULT gen_random_uuid(),
+    user_id          uuid  NOT NULL,
     cart_id          uuid  NOT NULL,
     product_id       uuid  NOT NULL,
     product_quantity int   NOT NULL,
     total_price      money NOT NULL,
+    is_flag          bool  NOT NULL,
 
     CONSTRAINT carts_pkey PRIMARY KEY (id)
 );

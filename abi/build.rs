@@ -6,7 +6,10 @@ fn main() {
         .compile(&["protos/order.proto"], &["protos"])
         .unwrap();
 
-    Command::new("cargo").args(["fmt"]).output().unwrap();
+    tonic_build::configure()
+        .out_dir("src/pb")
+        .compile(&["protos/cart.proto"], &["protos"])
+        .unwrap();
 
-    println!("cargo:rerun-if-changed=protos/order.proto");
+    Command::new("cargo").args(["fmt"]).output().unwrap();
 }

@@ -1,25 +1,12 @@
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PurchasedProduct {
-    #[prost(string, tag = "1")]
-    pub product_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub product_name: ::prost::alloc::string::String,
-    #[prost(uint32, tag = "3")]
-    pub quantity: u32,
-    /// price * 100
-    #[prost(uint32, tag = "4")]
-    pub unit_price: u32,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Order {
     #[prost(string, tag = "1")]
     pub order_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub user_id: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "3")]
-    pub cart: ::prost::alloc::vec::Vec<PurchasedProduct>,
+    #[prost(message, optional, tag = "3")]
+    pub cart: ::core::option::Option<super::cart::Cart>,
     #[prost(enumeration = "OrderStatus", tag = "4")]
     pub status: i32,
     #[prost(string, tag = "5")]
@@ -36,8 +23,8 @@ pub struct Order {
 pub struct OrderAddRequest {
     #[prost(string, tag = "1")]
     pub user_id: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "2")]
-    pub cart: ::prost::alloc::vec::Vec<PurchasedProduct>,
+    #[prost(message, optional, tag = "2")]
+    pub cart: ::core::option::Option<super::cart::Cart>,
     #[prost(enumeration = "OrderStatus", tag = "3")]
     pub status: i32,
     #[prost(message, optional, tag = "4")]
@@ -68,8 +55,8 @@ pub struct OrderCancelResponse {
 pub struct OrderModifyRequest {
     #[prost(string, tag = "1")]
     pub order_id: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "2")]
-    pub cart: ::prost::alloc::vec::Vec<PurchasedProduct>,
+    #[prost(message, optional, tag = "2")]
+    pub cart: ::core::option::Option<super::cart::Cart>,
     #[prost(enumeration = "OrderStatus", tag = "3")]
     pub status: i32,
     #[prost(string, tag = "4")]
